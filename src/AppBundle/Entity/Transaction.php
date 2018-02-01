@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Transaction
@@ -22,25 +23,46 @@ class Transaction
     private $id;
 
     /**
-     * @var string
+     * @var DateTime
      *
      * @ORM\Column(name="Date", type="string", length=255)
      */
     private $date;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="IDSourceUser", type="string", length=255, unique=true)
+     * @ORM\oneToOne(name="offer", type="integer", targetEntity="Offer")
      */
-    private $iDSourceUser;
+    private $offer;
 
     /**
-     * @var string
+     * @var object
      *
-     * @ORM\Column(name="IDDestUser", type="string", length=255, unique=true)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="transaction")
      */
-    private $iDDestUser;
+    private $srcUser;
+
+    /**
+     * @var object
+     *
+     * @ORM\Column(name="destUser", type="string", length=255, unique=true)
+     */
+    private $destUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetime",)
+     */
+    private $updatedAt;
 
 
     /**
@@ -78,51 +100,51 @@ class Transaction
     }
 
     /**
-     * Set iDSourceUser
+     * Set srcUser
      *
-     * @param string $iDSourceUser
+     * @param string $srcUser
      *
      * @return Transaction
      */
-    public function setIDSourceUser($iDSourceUser)
+    public function setSrcUser($srcUser)
     {
-        $this->iDSourceUser = $iDSourceUser;
+        $this->srcUser = $srcUser;
 
         return $this;
     }
 
     /**
-     * Get iDSourceUser
+     * Get srcUser
      *
      * @return string
      */
-    public function getIDSourceUser()
+    public function getSrcUser()
     {
-        return $this->iDSourceUser;
+        return $this->srcUser;
     }
 
     /**
-     * Set iDDestUser
+     * Set destUser
      *
-     * @param string $iDDestUser
+     * @param string $destUser
      *
      * @return Transaction
      */
-    public function setIDDestUser($iDDestUser)
+    public function setDestUser($destUser)
     {
-        $this->iDDestUser = $iDDestUser;
+        $this->destUser = $destUser;
 
         return $this;
     }
 
     /**
-     * Get iDDestUser
+     * Get destUser
      *
      * @return string
      */
-    public function getIDDestUser()
+    public function getDestUser()
     {
-        return $this->iDDestUser;
+        return $this->destUser;
     }
 }
 

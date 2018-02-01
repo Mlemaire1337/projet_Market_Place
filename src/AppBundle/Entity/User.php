@@ -70,6 +70,8 @@ class User
      */
     private $lastName;
 
+    private $transaction;
+
 
     /**
      * Get id
