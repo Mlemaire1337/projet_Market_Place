@@ -1,12 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div>
+    <main>
+        <h1>
+            Bonjour ! Bien venue sur la market place
+        </h1>
         <form action="submit">
-            <input type="text" name="user">
-            <input type="text" name="password">
+            <h5>Entrez vos identifiants</h5>
+            <input type="text" name="userName">
+            <input type="text" name="Password">
+            <input type="submit">
         </form>
-    </div>
+    </main>
 {% endblock %}
 
 
