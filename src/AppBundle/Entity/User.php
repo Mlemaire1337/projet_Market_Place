@@ -3,14 +3,19 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity(fields="username", message="Username already taken")
+ * @ORM\HasLifecycleCallbacks()
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var int
@@ -24,54 +29,105 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="UserName", type="string", length=255, unique=true)
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
-    private $userName;
+    private $username;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="Password", type="string", length=255, unique=true)
+    * @Assert\NotBlank()
+    * @Assert\Length(max=4096)
+    */
+    private $plainPassword;
+
+    /**
+     * @ORM\Column(name="password", type="string", length=64)
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Email", type="string", length=255, unique=true)
+     * @ORM\Column(name="lastname", type="string", length=255)
      */
-    private $email;
+    private $lastname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Adress", type="string", length=255)
+     * @ORM\Column(name="firstname", type="string", length=255)
      */
-    private $adress;
+    private $firstname;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="gender", type="integer")
+     */
+    private $gender;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="PostCode", type="string", length=255)
+     * @ORM\Column(name="address", type="string", length=255)
      */
-    private $postCode;
+    private $address;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="FirstName", type="string", length=255, unique=true)
+     * @ORM\Column(name="zipcode", type="string", length=255)
      */
-    private $firstName;
+    private $zipcode;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="LastName", type="string", length=255)
+     * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $lastName;
+    private $createdAt;
 
-    private $transaction;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetime")
+     */
+    private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="srcUser")
+     */
+    private $sentMessages;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="destUser")
+     */
+    private $receivedMessages;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user")
+     */
+    private $notifications;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Offer", mappedBy="author")
+     */
+    private $offers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="OfferBookmark", mappedBy="user")
+     */
+    private $offerBookmarks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="destUser")
+     */
+    private $acquiredOfferTransactions;
+
+
+    public function __construct()
+    {
+        $this->isActive = true;
+    }
 
     /**
      * Get id
@@ -83,28 +139,76 @@ class User
         return $this->id;
     }
 
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
     /**
-     * Set userName
+     * Set username
      *
-     * @param string $userName
+     * @param string $username
      *
      * @return User
      */
-    public function setUserName($userName)
+    public function setUsername($username)
     {
-        $this->userName = $userName;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get userName
+     * Get username
      *
      * @return string
      */
-    public function getUserName()
+    public function getUsername()
     {
-        return $this->userName;
+        return $this->username;
+    }
+
+    /**
+     * Get plainPassword
+     *
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set plainPassword
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 
     /**
@@ -122,133 +226,211 @@ class User
     }
 
     /**
-     * Get password
+     * Set lastname
      *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
+     * @param string $lastname
      *
      * @return User
      */
-    public function setEmail($email)
+    public function setLastname($lastname)
     {
-        $this->email = $email;
+        $this->lastname = $lastname;
 
         return $this;
     }
 
     /**
-     * Get email
+     * Get lastname
      *
      * @return string
      */
-    public function getEmail()
+    public function getLastname()
     {
-        return $this->email;
+        return $this->lastname;
     }
 
     /**
-     * Set adress
+     * Set firstname
      *
-     * @param string $adress
+     * @param string $firstname
      *
      * @return User
      */
-    public function setAdress($adress)
+    public function setFirstname($firstname)
     {
-        $this->adress = $adress;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
     /**
-     * Get adress
+     * Get firstname
      *
      * @return string
      */
-    public function getAdress()
+    public function getFirstname()
     {
-        return $this->adress;
+        return $this->firstname;
     }
 
     /**
-     * Set postCode
+     * Set gender
      *
-     * @param string $postCode
+     * @param integer $gender
      *
      * @return User
      */
-    public function setPostCode($postCode)
+    public function setGender($gender)
     {
-        $this->postCode = $postCode;
+        $this->gender = $gender;
 
         return $this;
     }
 
     /**
-     * Get postCode
+     * Get gender
      *
-     * @return string
+     * @return int
      */
-    public function getPostCode()
+    public function getGender()
     {
-        return $this->postCode;
+        return $this->gender;
     }
 
     /**
-     * Set firstName
+     * Set address
      *
-     * @param string $firstName
+     * @param string $address
      *
      * @return User
      */
-    public function setFirstName($firstName)
+    public function setAddress($address)
     {
-        $this->firstName = $firstName;
+        $this->address = $address;
 
         return $this;
     }
 
     /**
-     * Get firstName
+     * Get address
      *
      * @return string
      */
-    public function getFirstName()
+    public function getAddress()
     {
-        return $this->firstName;
+        return $this->address;
     }
 
     /**
-     * Set lastName
+     * Set zipcode
      *
-     * @param string $lastName
+     * @param string $zipcode
      *
      * @return User
      */
-    public function setLastName($lastName)
+    public function setZipcode($zipcode)
     {
-        $this->lastName = $lastName;
+        $this->zipcode = $zipcode;
 
         return $this;
     }
 
     /**
-     * Get lastName
+     * Get zipcode
      *
      * @return string
      */
-    public function getLastName()
+    public function getZipcode()
     {
-        return $this->lastName;
+        return $this->zipcode;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return User
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return User
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
     }
 }
-

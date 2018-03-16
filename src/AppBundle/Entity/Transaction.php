@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Transaction
@@ -23,32 +22,25 @@ class Transaction
     private $id;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      *
-     * @ORM\Column(name="Date", type="string", length=255)
+     * @ORM\Column(name="effectDate", type="datetime")
      */
-    private $date;
+    private $effectDate;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\oneToOne(name="offer", type="integer", targetEntity="Offer")
+     * @ORM\Column(name="price", type="decimal", precision=10, scale=3)
      */
-    private $offer;
+    private $price;
 
     /**
-     * @var object
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="transaction")
+     * @ORM\Column(name="fee", type="decimal", precision=10, scale=3)
      */
-    private $srcUser;
-
-    /**
-     * @var object
-     *
-     * @ORM\Column(name="destUser", type="string", length=255, unique=true)
-     */
-    private $destUser;
+    private $fee;
 
     /**
      * @var \DateTime
@@ -60,10 +52,19 @@ class Transaction
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updatedAt", type="datetime",)
+     * @ORM\Column(name="updatedAt", type="datetime")
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="acquiredOfferTransactions")
+     */
+    private $destUser;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Offer", inversedBy="transaction")
+     */
+    private $offer;
 
     /**
      * Get id
@@ -76,75 +77,122 @@ class Transaction
     }
 
     /**
-     * Set date
+     * Set effectDate
      *
-     * @param string $date
+     * @param \DateTime $effectDate
      *
      * @return Transaction
      */
-    public function setDate($date)
+    public function setEffectDate($effectDate)
     {
-        $this->date = $date;
+        $this->effectDate = $effectDate;
 
         return $this;
     }
 
     /**
-     * Get date
+     * Get effectDate
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getDate()
+    public function getEffectDate()
     {
-        return $this->date;
+        return $this->effectDate;
     }
 
     /**
-     * Set srcUser
+     * Set price
      *
-     * @param string $srcUser
+     * @param string $price
      *
      * @return Transaction
      */
-    public function setSrcUser($srcUser)
+    public function setPrice($price)
     {
-        $this->srcUser = $srcUser;
+        $this->price = $price;
 
         return $this;
     }
 
     /**
-     * Get srcUser
+     * Get price
      *
      * @return string
      */
-    public function getSrcUser()
+    public function getPrice()
     {
-        return $this->srcUser;
+        return $this->price;
     }
 
     /**
-     * Set destUser
+     * Set fee
      *
-     * @param string $destUser
+     * @param string $fee
      *
      * @return Transaction
      */
-    public function setDestUser($destUser)
+    public function setFee($fee)
     {
-        $this->destUser = $destUser;
+        $this->fee = $fee;
 
         return $this;
     }
 
     /**
-     * Get destUser
+     * Get fee
      *
      * @return string
      */
-    public function getDestUser()
+    public function getFee()
     {
-        return $this->destUser;
+        return $this->fee;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Transaction
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Transaction
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }
-

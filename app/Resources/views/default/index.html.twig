@@ -1,20 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <main>
-        <h1>
-            Bonjour ! Bien venue sur la market place
-        </h1>
-        <form action="submit">
-            <h5>Entrez vos identifiants</h5>
-            <input type="text" name="userName">
-            <input type="text" name="Password">
-            <input type="submit">
-        </form>
-    </main>
-{% endblock %}
+{% block content %}
+    <h1>Welcome to this market place !</h1>
 
+    <p>
+        <a href="{{path('login')}}">Login</a>
+    </p>
 
-{% block stylesheetsCustom %}
-    <link rel="stylesheet" href="{{ asset('public/css/main.css') }}" />
+    <p>
+        <a href="{{path('register')}}">Register</a>
+    </p>
+
+    <p>
+        <a href="{{path('profile')}}">Profile</a>
+    </p>
 {% endblock %}

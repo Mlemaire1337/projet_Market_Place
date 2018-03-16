@@ -13,26 +13,6 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', []);
+        return $this->render('default/index.html.twig');
     }
-
-    /**
-     * @Route("/page2", name="page2")
-     */
-    public function page2Action(Request $request)
-    {
-        // replace this example code with whatever you need
-        return $this->render('default/page2.html.twig', [
-            'userName' => "Matthieu"
-        ]);
-    }
-    /**
-     * @Route("/admin")
-     */
-    public function adminAction()
-    {
-        return new Response('<html><body>Admin page!</body></html>');
-    }
-
 }

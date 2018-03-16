@@ -24,79 +24,69 @@ class Offer
     /**
      * @var string
      *
-     * @ORM\Column(name="Title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Description", type="string", length=255)
+     * @ORM\Column(name="description", type="text")
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Image", type="string", length=255)
+     * @ORM\Column(name="zipcode", type="string", length=255)
      */
-    private $image;
+    private $zipcode;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="Price", type="string", length=255)
+     * @ORM\Column(name="views", type="integer")
      */
-    private $price;
+    private $views;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="Status", type="string", length=255)
+     * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $status;
+    private $createdAt;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="Localisation", type="string", length=255)
+     * @ORM\Column(name="updatedAt", type="datetime")
      */
-    private $localisation;
+    private $updatedAt;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="SubCategory", type="string", length=255)
+     * @ORM\OneToMany(targetEntity="Offer", mappedBy="relatedOffer")
+     */
+    private $relatedMessages;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="offers")
+     */
+    private $author;
+
+    /**
+     * @ORM\OneToMany(targetEntity="OfferBookmark", mappedBy="offer")
+     */
+    private $offerBookmarks;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="OfferSubCategory", inversedBy="offers")
      */
     private $subCategory;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="ViewNumber", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="Offer", mappedBy="offer")
      */
-    private $viewNumber;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="AuthorName", type="string", length=255)
-     */
-    private $authorName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="CreateDate", type="string", length=255)
-     */
-    private $createDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="UpdateDate", type="string", length=255)
-     */
-    private $updateDate;
+    private $transaction;
 
     /**
      * Get id
@@ -157,219 +147,98 @@ class Offer
     }
 
     /**
-     * Set image
+     * Set zipcode
      *
-     * @param string $image
+     * @param string $zipcode
      *
      * @return Offer
      */
-    public function setImage($image)
+    public function setZipcode($zipcode)
     {
-        $this->image = $image;
+        $this->zipcode = $zipcode;
 
         return $this;
     }
 
     /**
-     * Get image
+     * Get zipcode
      *
      * @return string
      */
-    public function getImage()
+    public function getZipcode()
     {
-        return $this->image;
+        return $this->zipcode;
     }
 
     /**
-     * Set price
+     * Set views
      *
-     * @param string $price
+     * @param integer $views
      *
      * @return Offer
      */
-    public function setPrice($price)
+    public function setViews($views)
     {
-        $this->price = $price;
+        $this->views = $views;
 
         return $this;
     }
 
     /**
-     * Get price
+     * Get views
      *
-     * @return string
+     * @return int
      */
-    public function getPrice()
+    public function getViews()
     {
-        return $this->price;
+        return $this->views;
     }
 
     /**
-     * Set status
+     * Set createdAt
      *
-     * @param string $status
+     * @param \DateTime $createdAt
      *
      * @return Offer
      */
-    public function setStatus($status)
+    public function setCreatedAt($createdAt)
     {
-        $this->status = $status;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get status
+     * Get createdAt
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getStatus()
+    public function getCreatedAt()
     {
-        return $this->status;
+        return $this->createdAt;
     }
 
     /**
-     * Set localisation
+     * Set updatedAt
      *
-     * @param string $localisation
+     * @param \DateTime $updatedAt
      *
      * @return Offer
      */
-    public function setLocalisation($localisation)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->localisation = $localisation;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     /**
-     * Get localisation
+     * Get updatedAt
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getLocalisation()
+    public function getUpdatedAt()
     {
-        return $this->localisation;
-    }
-
-    /**
-     * Set subCategory
-     *
-     * @param string $subCategory
-     *
-     * @return Offer
-     */
-    public function setSubCategory($subCategory)
-    {
-        $this->subCategory = $subCategory;
-
-        return $this;
-    }
-
-    /**
-     * Get subCategory
-     *
-     * @return string
-     */
-    public function getSubCategory()
-    {
-        return $this->subCategory;
-    }
-
-    /**
-     * Set viewNumber
-     *
-     * @param string $viewNumber
-     *
-     * @return Offer
-     */
-    public function setViewNumber($viewNumber)
-    {
-        $this->viewNumber = $viewNumber;
-
-        return $this;
-    }
-
-    /**
-     * Get viewNumber
-     *
-     * @return string
-     */
-    public function getViewNumber()
-    {
-        return $this->viewNumber;
-    }
-
-    /**
-     * Set authorName
-     *
-     * @param string $authorName
-     *
-     * @return Offer
-     */
-    public function setAuthorName($authorName)
-    {
-        $this->authorName = $authorName;
-
-        return $this;
-    }
-
-    /**
-     * Get authorName
-     *
-     * @return string
-     */
-    public function getAuthorName()
-    {
-        return $this->authorName;
-    }
-
-    /**
-     * Set createDate
-     *
-     * @param string $createDate
-     *
-     * @return Offer
-     */
-    public function setCreateDate($createDate)
-    {
-        $this->createDate = $createDate;
-
-        return $this;
-    }
-
-    /**
-     * Get createDate
-     *
-     * @return string
-     */
-    public function getCreateDate()
-    {
-        return $this->createDate;
-    }
-
-    /**
-     * Set updateDate
-     *
-     * @param string $updateDate
-     *
-     * @return Offer
-     */
-    public function setUpdateDate($updateDate)
-    {
-        $this->updateDate = $updateDate;
-
-        return $this;
-    }
-
-    /**
-     * Get updateDate
-     *
-     * @return string
-     */
-    public function getUpdateDate()
-    {
-        return $this->updateDate;
+        return $this->updatedAt;
     }
 }
-

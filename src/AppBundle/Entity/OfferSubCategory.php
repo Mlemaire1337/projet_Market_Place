@@ -24,10 +24,33 @@ class OfferSubCategory
     /**
      * @var string
      *
-     * @ORM\Column(name="IDCategory", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $iDCategory;
+    private $name;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetime")
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="OfferCategory", inversedBy="subCategories")
+     */
+    private $parentCategory;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Offer", mappedBy="subCategory")
+     */
+    private $offers;
 
     /**
      * Get id
@@ -40,27 +63,74 @@ class OfferSubCategory
     }
 
     /**
-     * Set iDCategory
+     * Set name
      *
-     * @param string $iDCategory
+     * @param string $name
      *
      * @return OfferSubCategory
      */
-    public function setIDCategory($iDCategory)
+    public function setName($name)
     {
-        $this->iDCategory = $iDCategory;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get iDCategory
+     * Get name
      *
      * @return string
      */
-    public function getIDCategory()
+    public function getName()
     {
-        return $this->iDCategory;
+        return $this->name;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return OfferSubCategory
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return OfferCategory
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }
-

@@ -24,38 +24,42 @@ class Notification
     /**
      * @var string
      *
-     * @ORM\Column(name="ContentText", type="string", length=255)
+     * @ORM\Column(name="content", type="text")
      */
-    private $contentText;
+    private $content;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="IDUser", type="string", length=255, unique=true)
+     * @ORM\Column(name="level", type="integer")
      */
-    private $iDUser;
+    private $level;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="Lvl", type="string", length=255)
-     */
-    private $lvl;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Status", type="string", length=255)
+     * @ORM\Column(name="status", type="integer")
      */
     private $status;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="Date", type="string", length=255)
+     * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $date;
+    private $createdAt;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetime")
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications")
+     */
+    private $user;
 
     /**
      * Get id
@@ -68,81 +72,57 @@ class Notification
     }
 
     /**
-     * Set contentText
+     * Set content
      *
-     * @param string $contentText
+     * @param string $content
      *
      * @return Notification
      */
-    public function setContentText($contentText)
+    public function setContent($content)
     {
-        $this->contentText = $contentText;
+        $this->content = $content;
 
         return $this;
     }
 
     /**
-     * Get contentText
+     * Get content
      *
      * @return string
      */
-    public function getContentText()
+    public function getContent()
     {
-        return $this->contentText;
+        return $this->content;
     }
 
     /**
-     * Set iDUser
+     * Set level
      *
-     * @param string $iDUser
+     * @param integer $level
      *
      * @return Notification
      */
-    public function setIDUser($iDUser)
+    public function setLevel($level)
     {
-        $this->iDUser = $iDUser;
+        $this->level = $level;
 
         return $this;
     }
 
     /**
-     * Get iDUser
+     * Get level
      *
-     * @return string
+     * @return int
      */
-    public function getIDUser()
+    public function getLevel()
     {
-        return $this->iDUser;
-    }
-
-    /**
-     * Set lvl
-     *
-     * @param string $lvl
-     *
-     * @return Notification
-     */
-    public function setLvl($lvl)
-    {
-        $this->lvl = $lvl;
-
-        return $this;
-    }
-
-    /**
-     * Get lvl
-     *
-     * @return string
-     */
-    public function getLvl()
-    {
-        return $this->lvl;
+        return $this->level;
     }
 
     /**
      * Set status
      *
-     * @param string $status
+     * @param integer $status
      *
      * @return Notification
      */
@@ -156,7 +136,7 @@ class Notification
     /**
      * Get status
      *
-     * @return string
+     * @return int
      */
     public function getStatus()
     {
@@ -164,27 +144,50 @@ class Notification
     }
 
     /**
-     * Set date
+     * Set createdAt
      *
-     * @param string $date
+     * @param \DateTime $createdAt
      *
      * @return Notification
      */
-    public function setDate($date)
+    public function setCreatedAt($createdAt)
     {
-        $this->date = $date;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get date
+     * Get createdAt
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getDate()
+    public function getCreatedAt()
     {
-        return $this->date;
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Notification
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }
-

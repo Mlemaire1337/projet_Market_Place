@@ -24,38 +24,45 @@ class Message
     /**
      * @var string
      *
-     * @ORM\Column(name="CreateDate", type="string", length=255)
+     * @ORM\Column(name="content", type="text")
      */
-    private $createDate;
+    private $content;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="IDOffer", type="string", length=255)
+     * @ORM\Column(name="subject", type="string", length=255)
      */
-    private $iDOffer;
+    private $subject;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="IDSourceUser", type="string", length=255, unique=true)
+     * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $iDSourceUser;
+    private $createdAt;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="IDDestUser", type="string", length=255, unique=true)
+     * @ORM\Column(name="updatedAt", type="datetime")
      */
-    private $iDDestUser;
+    private $updatedAt;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="Object", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="sentMessages")
      */
-    private $object;
+    private $srcUser;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="receivedMessages")
+     */
+    private $destUser;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Offer", inversedBy="relatedMessages")
+     */
+    private $relatedOffer;
 
     /**
      * Get id
@@ -68,123 +75,98 @@ class Message
     }
 
     /**
-     * Set createDate
+     * Set content
      *
-     * @param string $createDate
+     * @param string $content
      *
      * @return Message
      */
-    public function setCreateDate($createDate)
+    public function setContent($content)
     {
-        $this->createDate = $createDate;
+        $this->content = $content;
 
         return $this;
     }
 
     /**
-     * Get createDate
+     * Get content
      *
      * @return string
      */
-    public function getCreateDate()
+    public function getContent()
     {
-        return $this->createDate;
+        return $this->content;
     }
 
     /**
-     * Set iDOffer
+     * Set subject
      *
-     * @param string $iDOffer
+     * @param string $subject
      *
      * @return Message
      */
-    public function setIDOffer($iDOffer)
+    public function setSubject($subject)
     {
-        $this->iDOffer = $iDOffer;
+        $this->subject = $subject;
 
         return $this;
     }
 
     /**
-     * Get iDOffer
+     * Get subject
      *
      * @return string
      */
-    public function getIDOffer()
+    public function getSubject()
     {
-        return $this->iDOffer;
+        return $this->subject;
     }
 
     /**
-     * Set iDSourceUser
+     * Set createdAt
      *
-     * @param string $iDSourceUser
+     * @param \DateTime $createdAt
      *
      * @return Message
      */
-    public function setIDSourceUser($iDSourceUser)
+    public function setCreatedAt($createdAt)
     {
-        $this->iDSourceUser = $iDSourceUser;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get iDSourceUser
+     * Get createdAt
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getIDSourceUser()
+    public function getCreatedAt()
     {
-        return $this->iDSourceUser;
+        return $this->createdAt;
     }
 
     /**
-     * Set iDDestUser
+     * Set updatedAt
      *
-     * @param string $iDDestUser
+     * @param \DateTime $updatedAt
      *
      * @return Message
      */
-    public function setIDDestUser($iDDestUser)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->iDDestUser = $iDDestUser;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     /**
-     * Get iDDestUser
+     * Get updatedAt
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getIDDestUser()
+    public function getUpdatedAt()
     {
-        return $this->iDDestUser;
-    }
-
-    /**
-     * Set object
-     *
-     * @param string $object
-     *
-     * @return Message
-     */
-    public function setObject($object)
-    {
-        $this->object = $object;
-
-        return $this;
-    }
-
-    /**
-     * Get object
-     *
-     * @return string
-     */
-    public function getObject()
-    {
-        return $this->object;
+        return $this->updatedAt;
     }
 }
-

@@ -1,0 +1,8 @@
+<div>
+    <p>Header start</p>
+    {% if app.user != null %}
+        <a href="{{path('logout')}}">Logout</a>
+    {% endif %}
+    <p>Header end</p>
+    <hr/>
+</div>
